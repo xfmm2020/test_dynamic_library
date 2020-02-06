@@ -1,0 +1,27 @@
+cc = gcc
+Target = test
+
+CFLAGS =-Wl,-rpath=.
+SOURCE=test.c
+LDFLAGS=-L.
+LIB=-lhello
+$(Target): $(SOURCE)
+	$(cc) -o $@ $^ ${LDFLAGS} ${LIB} ${CFLAGS}
+
+TARGET1=libhello.so
+SOURCE1=hello.c
+LDFLAGS=-L.
+LIB1=-lworld
+CFLAGS1 =-shared -fPIC
+$(TARGET1): $(SOURCE1)
+	$(cc) -o ${CFLAGS1} $@ $^ ${LDFLAGS} ${LIB1}
+
+TARGET2=libworld.so
+SOURCE2=world.c
+CFLAGS2 =-shared -fPIC
+$(TARGET2): $(SOURCE2)
+	$(cc) -o $@ $^ ${CFLAGS2}
+
+.python : clean
+clean:
+	rm $(prom TARGET1 TARGET)
